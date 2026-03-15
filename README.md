@@ -24,7 +24,7 @@ In your target project's pom.xml, add the ScaffoldKit dependency:
 </dependency>
 ```
 
-# 3. Flip the Safety Switch
+### 3. Flip the Safety Switch
 By default, ScaffoldKit is completely dormant to prevent accidental production data leaks.
 To enable the tools, add this to your target application's application-dev.properties (or application.properties):
 
@@ -34,3 +34,7 @@ Properties
 scaffoldkit.mcp.enabled=true
 ```
 (⚠️ WARNING: Never set this to true in a production environment!)
+
+## Tips
+
+Include the dependency inside a development profile so it won't be included in other deployments.
