@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 
 import javax.sql.DataSource;
 
-import org.springframework.ai.tool.annotation.Tool;
+import org.springaicommunity.mcp.annotation.McpTool;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -19,7 +19,7 @@ public class DatabaseInspectorTool {
         this.dataSource = dataSource;
     }
 
-    @Tool(description = "Get the database schema, listing all tables and their columns. Use this to understand the data structure.")
+    @McpTool(description = "Get the database schema, listing all tables and their columns. Use this to understand the data structure.")
     public String getDatabaseSchema() {
         StringBuilder schema = new StringBuilder("Database Schema (User Tables Only):\n\n");
 
