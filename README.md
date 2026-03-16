@@ -19,7 +19,7 @@ Clone this repository and install it to your local Maven cache:
 mvn clean install
 ```
 
-### 2. Add to your project's Spring Boot application
+### 2. Go to your project and add the dependency
 In your target project's pom.xml, add the ScaffoldKit dependency:
 
 ```xml
@@ -58,9 +58,10 @@ In your target project's Cline panel's title bar click "MCP Servers" (small icon
 }
 ```
 
-
 ### 5. Run
 ```bash
+mvn clean compile
+mvn dependency:copy-dependencies
 mvn spring-boot:run
 ```
 Make sure your Cline is connected to MCP server and you're good to go!
