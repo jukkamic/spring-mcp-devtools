@@ -31,7 +31,8 @@ To enable the tools, add this to your target application's application-dev.prope
 Properties
 ```properties
 # Enable ScaffoldKit MCP tools
-scaffoldkit.mcp.enabled=true
+scaffoldkit.mcp.enabled=true    # Default false
+scaffoldkit.mcp.port=9090       # Default 9090
 ```
 (⚠️ WARNING: Never set this to true in a production environment!)
 
