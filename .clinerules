@@ -1,4 +1,7 @@
 # Mcp Dev Tools rules
 
 ## Development Standards
-- **Editing:** When editing files make sure to check that you have not left any "++++ REMOVE" lines behind when you're done. 
+- **Developing:** When starting with a new feature or a bug fix, create a branch first with prefix feat/ for feature and fix/ for bugfix.
+- **Editing:** When editing files, before you save and close, make sure to check that you have not left any "++++ REMOVE" lines behind when you're done. 
+- **Tasks:** When a task is complete pause to ask the user if there is a need for review. You may do git commits but not git push and not PR unless specifically told to do so without permission. Even if you are on YOLO mode you will wait for permission unless specifically git push and/or PR is permitted explicitly.
+
