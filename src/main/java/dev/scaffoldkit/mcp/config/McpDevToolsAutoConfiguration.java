@@ -2,9 +2,11 @@ package dev.scaffoldkit.mcp.config;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
 
 @AutoConfiguration
+@EnableConfigurationProperties(McpProperties.class) // This line triggers the Processor!
 @ConditionalOnProperty(prefix = "scaffoldkit.mcp", name = "enabled", havingValue = "true", matchIfMissing = false)
 @ComponentScan(basePackages = "dev.scaffoldkit.mcp.tools")
 public class McpDevToolsAutoConfiguration {
