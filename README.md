@@ -1,5 +1,9 @@
 # ScaffoldKit: MCP Spring DevTools 🏗️
 
+[![Java CI with Maven](https://github.com/jukkamic/spring-mcp-devtools/actions/workflows/maven.yml/badge.svg)](https://github.com/jukkamic/spring-mcp-devtools/actions)
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Spring Boot](https://img.shields.io/badge/Spring_Boot-4.0.3+-brightgreen.svg)](https://spring.io/projects/spring-boot)
+
 ScaffoldKit is the scaffolding to your construction site, the softwar project. It incorproates an MCP server on your Spring-Boot application that enables your Agent to introspect your project via MCP tools.
 
 In other words, ScaffoldKit is a custom Spring Boot Auto-Configuration library that bridges your Spring Boot applications with AI assistants (like Claude, Z.ai, and Cline) via the **Model Context Protocol (MCP)**. 
@@ -19,7 +23,7 @@ Clone this repository and install it to your local Maven cache:
 mvn clean install
 ```
 
-### 2. Go to your project and add the dependency
+### 2. Go to your target project and add the dependency
 In your target project's pom.xml, add the ScaffoldKit dependency:
 
 ```xml
@@ -33,11 +37,10 @@ In your target project's pom.xml, add the ScaffoldKit dependency:
 By default, ScaffoldKit is completely dormant to prevent accidental production data leaks.
 To enable the tools, add this to your target application's application.properties (or rather application-dev.properties):
 
-Properties
 ```properties
 # Enable ScaffoldKit MCP tools
-scaffoldkit.mcp.enabled=true    # Default false
 scaffoldkit.mcp.port=9090       # Default 9090
+scaffoldkit.mcp.enabled=true    # Default false
 ```
 (⚠️ WARNING: Never set this to true in a production environment!)
 
@@ -64,7 +67,9 @@ mvn clean compile
 mvn dependency:copy-dependencies
 mvn spring-boot:run
 ```
-Make sure your Cline is connected to MCP server and you're good to go!
+Make sure your MCP client is connected to Connect your MCP client to: ```http://localhost:9090/mcp/sse``` and you're good to go!
+
+"Hey robot, check the project's bean definitions"
 
 ## Tips
 Include the dependency inside a development profile so it won't be included in other deployments.
