@@ -4,7 +4,7 @@
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Spring Boot](https://img.shields.io/badge/Spring_Boot-4.0.3-brightgreen.svg)](https://spring.io/projects/spring-boot)
 
-ScaffoldKit is the scaffolding to your construction site, the softwar project. It incorproates an MCP server on your Spring-Boot application that enables your Agent to introspect your project via MCP tools.
+ScaffoldKit is the scaffolding to your construction site, the softwar project. It incorproates an MCP server on your Spring-Boot application and enables your Agent to introspect your project via MCP tools.
 
 In other words, ScaffoldKit is a custom Spring Boot Auto-Configuration library that bridges your Spring Boot applications with AI assistants (like Claude, Z.ai, and Cline) via the **Model Context Protocol (MCP)**. 
 
