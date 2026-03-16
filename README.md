@@ -10,7 +10,7 @@ In other words, ScaffoldKit is a custom Spring Boot Auto-Configuration library t
 
 Instead of writing custom database inspectors or log tailers for every new project, just drop this dependency in, flip a property switch, and give your AI immediate, sandboxed access to your local development environment.
 
-**Collaborators:** Check [README_COLLAB.MD](./README_COLLAB.md)
+**Collaborators:** Check [CONTRIBUTING.MD](./CONTRIBUTING.md)
 
 ## 🚀 Quick Start
 
