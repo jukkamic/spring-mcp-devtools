@@ -33,7 +33,7 @@ public class SpringConfigurationTool {
     public List<String> listProjectBeans() {
         return Arrays.stream(context.getBeanDefinitionNames())
                 // Filter for your package to hide the Spring infrastructure noise
-                .filter(name -> name.contains("fi.kotkis") ||
+                .filter(name -> name.contains("dev.scaffoldkit") ||
                         !name.contains(".")) // Also show short names like "materialController"
                 .sorted()
                 .collect(Collectors.toList());
