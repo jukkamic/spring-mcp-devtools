@@ -67,7 +67,7 @@ mvn clean compile
 mvn dependency:copy-dependencies
 mvn spring-boot:run
 ```
-Make sure your MCP client is connected to Connect your MCP client to: ```http://localhost:9090/mcp/sse``` and you're good to go!
+Make sure your MCP client is connected to: ```http://localhost:9090/mcp/sse``` and you're good to go!
 
 "Hey robot, check the project's bean definitions"
 
