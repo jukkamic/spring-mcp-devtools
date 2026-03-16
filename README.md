@@ -10,6 +10,8 @@ Instead of writing custom database inspectors or log tailers for every new proje
 
 ## 🚀 Quick Start
 
+## Setting the scaffolding up in your construction site
+
 ### 1. Install locally
 Clone this repository and install it to your local Maven cache:
 
@@ -39,6 +41,29 @@ scaffoldkit.mcp.port=9090       # Default 9090
 ```
 (⚠️ WARNING: Never set this to true in a production environment!)
 
-## Tips
+### 4. Cline MCP settings
 
+In your target project's Cline panel's title bar click "MCP Servers" (small icon next to plus sign), select Configure tab and click Configure MCP Servers.
+
+```json  
+{
+  "mcpServers": {
+    "java-construction-site": {
+      "disabled": false,
+      "timeout": 60,
+      "type": "sse",
+      "url": "http://localhost:9090/sse"
+    }
+  }
+}
+```
+
+
+### 5. Run
+```bash
+mvn spring-boot:run
+```
+Make sure your Cline is connected to MCP server and you're good to go!
+
+## Tips
 Include the dependency inside a development profile so it won't be included in other deployments.
