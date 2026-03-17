@@ -3,6 +3,7 @@
 [![Java CI with Maven](https://github.com/jukkamic/spring-mcp-devtools/actions/workflows/maven.yml/badge.svg)](https://github.com/jukkamic/spring-mcp-devtools/actions)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Spring Boot](https://img.shields.io/badge/Spring_Boot-4.0.3-brightgreen.svg)](https://spring.io/projects/spring-boot)
+![Spring AI](https://img.shields.io/badge/Spring_AI-2.0.0--M2-6db33f?logo=spring&logoColor=white)
 
 ScaffoldKit is the scaffolding to your construction site, the softwar project. It incorproates an MCP server on your Spring-Boot application and enables your Agent to introspect your project via MCP tools.
 
