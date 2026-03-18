@@ -28,6 +28,13 @@ class ApplicationLogTool {
         try {
             Path path = Path.of(logPath);
             if (!Files.exists(path)) return "Log file not found: " + logPath;
+
+            long fileSize = Files.size(path);
+            long maxSize = env.getProperty("scaffoldkit.mcp.tools.log-tailer.max-size", Long.class, 2097152L); // 2MB default
+            if(fileSize > maxSize) {
+                String note = String.format("[SYSTEM NOTE: Log file is %d MB and has been truncated. Displaying the last 100KB only.]\n", fileSize / (1024 * 1024));
+                return note + "=".repeat(80) + "\n" + readLastBytes(path, 102400); // Read last 100KB
+            }
             var allLines = Files.readAllLines(path);
             int start = Math.max(0, allLines.size() - lines);
             var recentLines = allLines.subList(start, allLines.size());
@@ -55,5 +62,18 @@ class ApplicationLogTool {
             }
         } catch (Exception ignored) {}
         return env.getProperty("logging.file.name");
+    }
+
+    private String readLastBytes(Path path, int bytesToRead) {
+        try (java.io.RandomAccessFile raf = new java.io.RandomAccessFile(path.toFile(), "r")) {
+            long length = raf.length();
+            long startPointer = Math.max(0, length - bytesToRead);
+            raf.seek(startPointer);
+            byte[] buffer = new byte[(int) (length - startPointer)];
+            raf.readFully(buffer);
+            return new String(buffer, java.nio.charset.StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            return "Error reading log file: " + e.getMessage();
+        }
     }
 }
