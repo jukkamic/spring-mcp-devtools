@@ -39,7 +39,7 @@ class ApplicationLogToolTest {
         properties = new McpProperties();
         // Ensure the tools object is properly initialized
         properties.setTools(new McpProperties.Tools());
-        applicationLogTool = new ApplicationLogTool(properties, environment);
+        applicationLogTool = new ApplicationLogTool(environment);
     }
 
     @Test

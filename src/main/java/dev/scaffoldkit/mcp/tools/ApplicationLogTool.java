@@ -1,8 +1,7 @@
 package dev.scaffoldkit.mcp.tools;
 
-import ch.qos.logback.classic.LoggerContext;
-import ch.qos.logback.core.FileAppender;
-import dev.scaffoldkit.mcp.config.McpProperties;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import org.slf4j.LoggerFactory;
 import org.springaicommunity.mcp.annotation.McpTool;
@@ -10,17 +9,15 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
+import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.core.FileAppender;
 
 @Component
 @Profile("dev")
 class ApplicationLogTool {
     private final Environment env;
-    private final McpProperties properties;
 
-    ApplicationLogTool(McpProperties properties , Environment env) {
-        this.properties = properties;
+    ApplicationLogTool(Environment env) {
         this.env = env;
     }
 
