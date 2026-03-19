@@ -28,11 +28,11 @@ public class PropertyDetailsTool {
 
         // Get the resolved value (the "winning" value)
         String resolvedValue = environment.getProperty(propertyName);
-        
+
         // Collect all property sources that contain this property
         List<PropertySourceEntry> propertySources = new ArrayList<>();
         boolean found = false;
-        
+
         for (PropertySource<?> source : environment.getPropertySources()) {
             try {
                 Object value = source.getProperty(propertyName);
@@ -48,35 +48,36 @@ public class PropertyDetailsTool {
 
         if (!found) {
             return String.format("Property '%s' is not defined in any property source.\n\n", propertyName) +
-                   "Property Sources Checked:\n" +
-                   "======================\n" +
-                   listAllPropertySources();
+                    "Property Sources Checked:\n" +
+                    "======================\n" +
+                    listAllPropertySources();
         }
 
         StringBuilder result = new StringBuilder();
         result.append("Property: ").append(propertyName).append("\n");
         result.append("Resolved Value: ").append(resolvedValue != null ? resolvedValue : "<null>").append("\n");
-        
-        // The first property source in the list is the "winning" one (highest precedence)
+
+        // The first property source in the list is the "winning" one (highest
+        // precedence)
         String winningSource = propertySources.get(0).name;
         result.append("Winning Source: ").append(winningSource).append("\n");
         result.append("\n");
-        
+
         result.append("Property Sources (in precedence order - highest first):\n");
         result.append("======================================================\n");
-        
+
         for (int i = 0; i < propertySources.size(); i++) {
             PropertySourceEntry entry = propertySources.get(i);
             result.append(entry.name);
             result.append(": ");
             result.append(entry.value);
-            
+
             if (i == 0) {
                 result.append(" ← WINNING");
             }
             result.append("\n");
         }
-        
+
         result.append("\n");
         result.append("Property Source Hierarchy:\n");
         result.append("==========================\n");
@@ -87,12 +88,12 @@ public class PropertyDetailsTool {
         result.append("5. Application configuration files\n");
         result.append("6. @PropertySource annotations\n");
         result.append("7. Default properties (lowest precedence)\n");
-        
+
         result.append("\n");
         result.append("All Property Sources:\n");
         result.append("=====================\n");
         result.append(listAllPropertySources());
-        
+
         return result.toString();
     }
 
