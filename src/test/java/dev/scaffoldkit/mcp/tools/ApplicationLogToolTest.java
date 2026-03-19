@@ -15,10 +15,8 @@ import org.junit.jupiter.api.io.TempDir;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.core.env.Environment;
-import org.springframework.util.unit.DataSize;
 
 import dev.scaffoldkit.mcp.config.McpProperties;
-import dev.scaffoldkit.mcp.config.McpProperties.Tools.LogTailer;
 
 /**
  * Unit tests for {@link ApplicationLogTool}.
@@ -181,79 +179,11 @@ class ApplicationLogToolTest {
     }
 
     @Test
-    @DisplayName("Should return truncation message when file size exceeds maxSize")
-    void getRecentLogs_WhenFileSizeExceedsMaxSize_ReturnsTruncationMessage() throws IOException {
-        // Arrange
-        Path testFile = tempDir.resolve("test.log");
-        createTestFile(testFile, 100, "Log line ");
-        
-        LogTailer logTailer = new LogTailer();
-        // Set maxSize to a very small value to ensure it's smaller than the actual file
-        logTailer.setMaxSize(DataSize.ofBytes(10));
-        properties.getTools().setLogTailer(logTailer);
-        
-        when(environment.getProperty("logging.file.name")).thenReturn(testFile.toString());
-
-        // Act
-        String result = applicationLogTool.getRecentLogs(10);
-
-        // Assert
-        assertTrue(result.contains("[SYSTEM NOTE: Log file is 0 MB and has been truncated. Displaying the last 10 lines only.]"));
-        assertTrue(result.contains("=".repeat(80)));
-        verify(environment).getProperty("logging.file.name");
-    }
-
-    @Test
-    @DisplayName("Should return requested lines when file size exceeds maxSize")
-    void getRecentLogs_WhenFileSizeExceedsMaxSize_ReturnsRequestedLinesNotMore() throws IOException {
-        // Arrange - Create a file with more lines than requested
-        Path testFile = tempDir.resolve("test.log");
-        createTestFile(testFile, 200, "Log line ");
-        
-        // Set maxSize to a very small value to trigger large file behavior
-        LogTailer logTailer = new LogTailer();
-        logTailer.setMaxSize(DataSize.ofBytes(10));
-        properties.getTools().setLogTailer(logTailer);
-        
-        when(environment.getProperty("logging.file.name")).thenReturn(testFile.toString());
-
-        // Act
-        String result = applicationLogTool.getRecentLogs(15);
-
-        // Assert
-        // Should contain truncation message
-        assertTrue(result.contains("[SYSTEM NOTE: Log file is 0 MB and has been truncated. Displaying the last 15 lines only.]"));
-        
-        // Count the number of log lines (excluding header and separator)
-        long logLineCount = result.lines()
-            .filter(line -> line.startsWith("Log line "))
-            .count();
-        
-        // Should return exactly 15 lines, not more
-        assertEquals(15, logLineCount, "Should return exactly 15 lines when file size exceeds maxSize");
-        
-        // Should not contain early lines (use complete line to avoid substring matches)
-        assertFalse(result.lines().anyMatch(line -> line.equals("Log line 1")));
-        assertFalse(result.lines().anyMatch(line -> line.equals("Log line 50")));
-        
-        // Should contain the last lines
-        assertTrue(result.lines().anyMatch(line -> line.equals("Log line 186")));
-        assertTrue(result.lines().anyMatch(line -> line.equals("Log line 200")));
-        
-        verify(environment).getProperty("logging.file.name");
-    }
-
-    @Test
-    @DisplayName("Should return exactly requested lines from large file regardless of maxSize")
+    @DisplayName("Should return exactly requested lines from large file")
     void getRecentLogs_LargeFile_ReturnsExactlyRequestedLines() throws IOException {
         // Arrange - Test with different line counts
         Path testFile = tempDir.resolve("test.log");
         createTestFile(testFile, 500, "Line ");
-        
-        LogTailer logTailer = new LogTailer();
-        // Set maxSize to a very small value to ensure it's smaller than the actual file
-        logTailer.setMaxSize(DataSize.ofBytes(10));
-        properties.getTools().setLogTailer(logTailer);
         
         when(environment.getProperty("logging.file.name")).thenReturn(testFile.toString());
 
@@ -265,7 +195,7 @@ class ApplicationLogToolTest {
             .filter(line -> line.startsWith("Line "))
             .count();
         
-        assertEquals(25, logLineCount, "Should return exactly 25 lines when file size exceeds maxSize");
+        assertEquals(25, logLineCount, "Should return exactly 25 lines from large file");
         
         // Verify the lines are from the end of the file
         assertTrue(result.contains("Line 476"));
@@ -360,54 +290,6 @@ class ApplicationLogToolTest {
 
         // Assert
         assertTrue(result.contains("Log file not found"));
-        verify(environment).getProperty("logging.file.name");
-    }
-
-    @Test
-    @DisplayName("Should handle file with exactly maxSize bytes")
-    void getRecentLogs_WhenFileSizeEqualsMaxSize_ReturnsContent() throws IOException {
-        // Arrange
-        Path testFile = tempDir.resolve("test.log");
-        createTestFile(testFile, 10, "Line ");
-        
-        LogTailer logTailer = new LogTailer();
-        long exactSize = Files.size(testFile);
-        logTailer.setMaxSize(DataSize.ofBytes(exactSize));
-        properties.getTools().setLogTailer(logTailer);
-        
-        when(environment.getProperty("logging.file.name")).thenReturn(testFile.toString());
-
-        // Act
-        String result = applicationLogTool.getRecentLogs(5);
-
-        // Assert
-        // Should not show truncation message when size equals maxSize
-        assertFalse(result.contains("truncated"));
-        assertTrue(result.contains("Last 5 lines"));
-        verify(environment).getProperty("logging.file.name");
-    }
-
-    @Test
-    @DisplayName("Should handle file size just one byte over maxSize")
-    void getRecentLogs_WhenFileSizeOneByteOverMaxSize_ReturnsTruncatedContent() throws IOException {
-        // Arrange
-        Path testFile = tempDir.resolve("test.log");
-        createTestFile(testFile, 20, "Line ");
-        
-        LogTailer logTailer = new LogTailer();
-        long exactSize = Files.size(testFile);
-        // Set maxSize to be smaller than the actual file size
-        logTailer.setMaxSize(DataSize.ofBytes(10));
-        properties.getTools().setLogTailer(logTailer);
-        
-        when(environment.getProperty("logging.file.name")).thenReturn(testFile.toString());
-
-        // Act
-        String result = applicationLogTool.getRecentLogs(5);
-
-        // Assert
-        // Should show truncation message when size exceeds maxSize
-        assertTrue(result.contains("truncated"));
         verify(environment).getProperty("logging.file.name");
     }
 
