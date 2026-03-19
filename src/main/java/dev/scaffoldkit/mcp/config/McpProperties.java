@@ -1,6 +1,7 @@
 package dev.scaffoldkit.mcp.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.util.unit.DataSize;
 
 @ConfigurationProperties(prefix = "scaffoldkit.mcp")
 public class McpProperties {
@@ -15,6 +16,39 @@ public class McpProperties {
      * Defaults to 9090 to avoid collisions with standard Spring Boot apps.
      */
     private int port = 9090;
+
+    private Tools tools = new Tools();
+
+    public static class Tools {
+        private LogTailer logTailer = new LogTailer();
+
+        public static class LogTailer {
+            private DataSize maxSize = DataSize.ofMegabytes(2);
+
+            public DataSize getMaxSize() {
+                return maxSize;
+            }
+            public void setMaxSize(DataSize maxSize) {
+                this.maxSize = maxSize;
+            }
+        }
+
+        public LogTailer getLogTailer() {
+            return logTailer;
+        }
+
+        public void setLogTailer(LogTailer logTailer) {
+            this.logTailer = logTailer;
+        }
+    }
+
+    public Tools getTools() {
+        return tools;
+    }
+
+    public void setTools(Tools tools) {
+        this.tools = tools;
+    }
 
     public boolean isEnabled() {
         return enabled;
