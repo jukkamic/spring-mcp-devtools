@@ -42,7 +42,7 @@ class ApplicationLogTool {
                 String[] allLines = rawTail.split("\\r?\\n");
                 int start = Math.max(1, allLines.length - lines);
                 StringBuilder sb = new StringBuilder();
-                String note = String.format("[SYSTEM NOTE: Log file is %d MB and has been truncated. Displaying the last 100KB only.]\n", fileSize / (1024 * 1024));
+                String note = String.format("[SYSTEM NOTE: Log file is %d MB and has been truncated. Displaying the last %d lines only.]\n", fileSize / (1024 * 1024));
                 sb.append(note).append("=".repeat(80)).append("\n");
                 for(int i = start; i<allLines.length; i++) {
                     sb.append(allLines[i]).append("\n");
