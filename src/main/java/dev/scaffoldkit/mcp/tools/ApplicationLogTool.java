@@ -38,15 +38,14 @@ class ApplicationLogTool {
             long maxSize = properties.getTools().getLogTailer().getMaxSize().toBytes();
 
             if(fileSize > maxSize) {
-                String rawTail = readLastBytes(path, 102400); // Read last 100KB
-                String[] allLines = rawTail.split("\\r?\\n");
-                int start = Math.max(1, allLines.length - lines);
+                // Use Files.readAllLines but limit the number of lines read
+                var allLines = Files.readAllLines(path);
+                int start = Math.max(0, allLines.size() - lines);
+                var recentLines = allLines.subList(start, allLines.size());
                 StringBuilder sb = new StringBuilder();
-                String note = String.format("[SYSTEM NOTE: Log file is %d MB and has been truncated. Displaying the last %d lines only.]\n", fileSize / (1024 * 1024));
+                String note = String.format("[SYSTEM NOTE: Log file is %d MB and has been truncated. Displaying the last %d lines only.]\n", fileSize / (1024 * 1024), lines);
                 sb.append(note).append("=".repeat(80)).append("\n");
-                for(int i = start; i<allLines.length; i++) {
-                    sb.append(allLines[i]).append("\n");
-                }
+                recentLines.forEach(l -> sb.append(l).append("\n"));
                 return sb.toString();
             }
             
@@ -77,18 +76,5 @@ class ApplicationLogTool {
             }
         } catch (Exception ignored) {}
         return env.getProperty("logging.file.name");
-    }
-
-    private String readLastBytes(Path path, int bytesToRead) {
-        try (java.io.RandomAccessFile raf = new java.io.RandomAccessFile(path.toFile(), "r")) {
-            long length = raf.length();
-            long startPointer = Math.max(0, length - bytesToRead);
-            raf.seek(startPointer);
-            byte[] buffer = new byte[(int) (length - startPointer)];
-            raf.readFully(buffer);
-            return new String(buffer, java.nio.charset.StandardCharsets.UTF_8);
-        } catch (Exception e) {
-            return "Error reading log file: " + e.getMessage();
-        }
     }
 }
