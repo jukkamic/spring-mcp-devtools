@@ -62,6 +62,8 @@ In your target project's Cline panel's title bar click "MCP Servers" (small icon
 }
 ```
 
+***This project is not Cline dependent!*** Don't worry if you use a different agent. All you need is the URL configuration in place. 
+
 ### 5. Run
 ```bash
 mvn clean compile
