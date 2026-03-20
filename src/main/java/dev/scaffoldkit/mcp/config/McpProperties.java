@@ -22,6 +22,7 @@ public class McpProperties {
     public static class Tools {
         private LogTailer logTailer = new LogTailer();
         private WebEndpoints webEndpoints = new WebEndpoints();
+        
         public static class LogTailer {
             private DataSize maxSize = DataSize.ofMegabytes(2);
 
