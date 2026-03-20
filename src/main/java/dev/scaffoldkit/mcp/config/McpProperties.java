@@ -21,7 +21,7 @@ public class McpProperties {
 
     public static class Tools {
         private LogTailer logTailer = new LogTailer();
-
+        private WebEndpoints webEndpoints = new WebEndpoints();
         public static class LogTailer {
             private DataSize maxSize = DataSize.ofMegabytes(2);
 
@@ -31,6 +31,24 @@ public class McpProperties {
             public void setMaxSize(DataSize maxSize) {
                 this.maxSize = maxSize;
             }
+        }
+
+        public static class WebEndpoints {
+            private boolean enabled = true;
+            public boolean isEnabled() {
+                return enabled;
+            }
+            public void setEnabled(boolean enabled) {
+                this.enabled = enabled;
+            }
+        }
+
+        public WebEndpoints getWebEndpoints() {
+            return webEndpoints;
+        }
+
+        public void setWebEndpoints(WebEndpoints webEndpoints) {
+            this.webEndpoints = webEndpoints;
         }
 
         public LogTailer getLogTailer() {
